@@ -1,0 +1,36 @@
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate HTML
+        uses: Cyb3r-Jak3/html-validate-action@v1
+        with:
+          files: "*.html"
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Dependency Check
+        uses: dependency-check/gha-action@main
+        with:
+          format: "ALL"
+
+      - name: Run ESLint (for JavaScript files)
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          level: warning
+          reporter: github-check
