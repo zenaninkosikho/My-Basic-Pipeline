@@ -13,8 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Validate HTML
-        uses: chrisdrackett/w3c-html-validation-action@v1.2.0
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          files: "*.html"
+          node-version: '16'
   
+      - name: Install HTMLHint
+        run: npm install -g htmlhint
+  
+      - name: Run HTMLHint
+        run: htmlhint "*.html"
+    
