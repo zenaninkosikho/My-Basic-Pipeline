@@ -30,7 +30,7 @@ jobs:
     steps:
       - run:
           name: Install findutils
-          command: apk add --no-cache findutils  # For Alpine-based images
+          command: apt-get update && apt-get install -y findutils
       - run: find .
       - attach_workspace:
           at: ~/workspace
@@ -46,6 +46,7 @@ jobs:
           -Dsonar.login="$SONAR_TOKEN" \
           -Dsonar.branch.name="$SONAR_BRANCH" \
           -Dsonar.sources="."
+
 
 
 # Orchestrate jobs using workflows
