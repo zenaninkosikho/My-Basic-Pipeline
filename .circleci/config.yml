@@ -28,6 +28,9 @@ jobs:
       - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
+      - run:
+          name: Install findutils
+          command: apk add --no-cache findutils  # For Alpine-based images
       - run: find .
       - attach_workspace:
           at: ~/workspace
@@ -43,6 +46,7 @@ jobs:
           -Dsonar.login="$SONAR_TOKEN" \
           -Dsonar.branch.name="$SONAR_BRANCH" \
           -Dsonar.sources="."
+
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
